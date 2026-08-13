@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IMD Weather App</title>
+    <link rel="stylesheet" href="/css/imd_weather.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>IMD Weather</h1>
+            <p class="subtitle">India Meteorological Department</p>
+        </header>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" id="cityInput" placeholder="Enter city name..." autocomplete="off">
+                <button id="searchBtn" aria-label="Search">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="suggestions" class="suggestions"></div>
+        </div>
+
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Fetching weather data...</p>
+        </div>
+
+        <div id="error" class="error hidden"></div>
+
+        <div id="weatherCard" class="weather-card hidden">
+            <div class="weather-main">
+                <div class="location">
+                    <h2 id="cityName"></h2>
+                    <p id="weatherDesc"></p>
+                </div>
+                <div class="temperature">
+                    <span id="tempValue"></span>
+                    <span class="unit">°C</span>
+                </div>
+            </div>
+
+            <div class="weather-details">
+                <div class="detail-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 18a5 5 0 0 0-10 0"></path>
+                        <path d="M12 9V2"></path>
+                        <path d="m4.22 10.22-1.44 1.44"></path>
+                        <path d="M1 18h2"></path>
+                        <path d="m20.78 10.22 1.44 1.44"></path>
+                        <path d="M21 18h2"></path>
+                    </svg>
+                    <div class="detail-text">
+                        <span class="detail-label">Sunrise</span>
+                        <span id="sunrise" class="detail-value"></span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3v2"></path>
+                        <path d="M4.93 4.93l1.41 1.41"></path>
+                        <path d="M1 18h2"></path>
+                        <path d="M21 18h2"></path>
+                        <path d="M2 21h20"></path>
+                        <path d="M12 15V8"></path>
+                        <path d="m17 13-5 5-5-5"></path>
+                    </svg>
+                    <div class="detail-text">
+                        <span class="detail-label">Sunset</span>
+                        <span id="sunset" class="detail-value"></span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 3a6 6 0 0 0 4 10.5V14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V3"></path>
+                        <path d="M6 12a6 6 0 1 0 12 0"></path>
+                    </svg>
+                    <div class="detail-text">
+                        <span class="detail-label">Moonrise</span>
+                        <span id="moonrise" class="detail-value"></span>
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 11A8.1 8.1 0 0 0 4.5 9H4c-1.1 0-2 .9-2 2v4a2 2 0 0 0 2 2h3"></path>
+                        <path d="M22 17H10v3l3.5-2H22a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2h-1"></path>
+                    </svg>
+                    <div class="detail-text">
+                        <span class="detail-label">Moonset</span>
+                        <span id="moonset" class="detail-value"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="forecast-section">
+                <h3>Forecast</h3>
+                <div id="warnings" class="warnings"></div>
+                <div id="forecastContainer" class="forecast-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/imd_weather.js"></script>
+</body>
+</html>
