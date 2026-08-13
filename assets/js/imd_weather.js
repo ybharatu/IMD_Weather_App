@@ -141,7 +141,7 @@ function displayWeather(data) {
         : `${icon} ${condition}`;
 
     if (today.max_temp != null && today.min_temp != null) {
-        document.getElementById('tempValue').textContent = `${today.min_temp}° / ${today.max_temp}°`;
+        document.getElementById('tempValue').textContent = `${today.max_temp}° / ${today.min_temp}°`;
     } else {
         document.getElementById('tempValue').textContent = '--';
     }
