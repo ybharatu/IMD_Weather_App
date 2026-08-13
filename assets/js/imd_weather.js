@@ -94,6 +94,24 @@ function getWeatherIcon(condition) {
     return '🌤️';
 }
 
+function getWarningClass(day) {
+    const color = (day.warning_color || '').toLowerCase();
+
+    if (color === 'yellow' || color === 'orange' || color === 'red') {
+        return `wk-${color}`;
+    }
+
+    const text = (day.warning || '').toLowerCase();
+    if (text.includes('thunderstorm') || text.includes('heavy rain')) {
+        return 'wk-red';
+    } else if (text.includes('strong wind') || text.includes('heat')) {
+        return 'wk-orange';
+    } else if (text !== 'no warning' && text !== '') {
+        return 'wk-yellow';
+    }
+    return null;
+}
+
 function renderWarnings(forecast) {
     const warnings = (forecast || []).filter(day =>
         day.warning && day.warning.toLowerCase() !== 'no warning'
@@ -138,14 +156,24 @@ function displayWeather(data) {
 
     const forecastContainer = document.getElementById('forecastContainer');
     if (data.forecast && data.forecast.length > 0) {
-        forecastContainer.innerHTML = data.forecast.map(day => `
-            <div class="forecast-item">
-                <span class="forecast-date">${day.date}</span>
-                <span class="forecast-icon">${getWeatherIcon(day.condition)}</span>
-                <span class="forecast-temp">${day.max_temp != null ? day.max_temp : '--'}° / ${day.min_temp != null ? day.min_temp : '--'}°</span>
-                <span class="forecast-desc">${day.condition || 'N/A'}</span>
-            </div>
-        `).join('');
+        forecastContainer.innerHTML = data.forecast.map(day => {
+            const warningClass = getWarningClass(day);
+            const warningBadge = warningClass
+                ? `<span class="forecast-warning ${warningClass}">${day.warning}</span>`
+                : '';
+
+            return `
+                <div class="forecast-item">
+                    <span class="forecast-date">${day.date}</span>
+                    <span class="forecast-icon">${getWeatherIcon(day.condition)}</span>
+                    <span class="forecast-main">
+                        <span class="forecast-temp">${day.max_temp != null ? day.max_temp : '--'}° / ${day.min_temp != null ? day.min_temp : '--'}°</span>
+                        <span class="forecast-desc">${day.condition || 'N/A'}</span>
+                    </span>
+                    ${warningBadge}
+                </div>
+            `;
+        }).join('');
     } else {
         forecastContainer.innerHTML = '<p class="no-forecast">Forecast data unavailable</p>';
     }

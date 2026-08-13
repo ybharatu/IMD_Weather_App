@@ -258,35 +258,75 @@ header h1 {
 
 .forecast-container {
     display: flex;
+    flex-direction: column;
     gap: 0.75rem;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
 }
 
 .forecast-item {
-    flex: 0 0 auto;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 1rem;
-    text-align: center;
-    min-width: 100px;
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    align-items: center;
+    gap: 1rem;
 }
 
 .forecast-date {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     color: #8892b0;
+    width: 70px;
+    flex-shrink: 0;
+    font-weight: 600;
 }
 
 .forecast-icon {
     font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.forecast-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
 }
 
 .forecast-temp {
     font-size: 0.9rem;
     font-weight: 600;
+}
+
+.forecast-desc {
+    font-size: 0.8rem;
+    color: #8892b0;
+}
+
+.forecast-warning {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.forecast-warning.wk-yellow {
+    background: #ffe100;
+    color: #1a1a2e;
+    border: 1px solid #b3a400;
+}
+
+.forecast-warning.wk-orange {
+    background: #ff8c00;
+    color: #1a1a2e;
+    border: 1px solid #cc7000;
+}
+
+.forecast-warning.wk-red {
+    background: #ff2d2d;
+    color: #fff;
+    border: 1px solid #c70000;
 }
 
 .forecast-desc {
@@ -342,7 +382,12 @@ header h1 {
     }
 
     .forecast-item {
-        min-width: 85px;
         padding: 0.75rem;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+    }
+
+    .forecast-warning {
+        width: 100%;
     }
 }
