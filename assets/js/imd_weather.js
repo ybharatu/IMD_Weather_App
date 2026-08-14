@@ -130,14 +130,33 @@ function renderWarnings(forecast) {
     `).join('');
 }
 
+function formatForecastDate(dateStr) {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const match = String(dateStr || '').match(/^(\d{1,2})-([A-Za-z]{3})/);
+
+    if (!match) {
+        return dateStr;
+    }
+
+    const day = Number.parseInt(match[1], 10);
+    const monthIndex = months.indexOf(match[2][0].toUpperCase() + match[2].slice(1).toLowerCase());
+    if (monthIndex === -1) {
+        return dateStr;
+    }
+
+    const date = new Date(new Date().getFullYear(), monthIndex, day);
+    return date.toLocaleDateString('en-IN', { weekday: 'short', month: 'short', day: 'numeric' });
+}
+
 function displayWeather(data) {
     const today = data.forecast && data.forecast[0] ? data.forecast[0] : {};
     const condition = today.condition || data.observed && data.observed.condition || '';
     const icon = getWeatherIcon(condition);
+    const displayDate = formatForecastDate(today.date) || data.date;
 
     document.getElementById('cityName').textContent = data.city || 'Unknown City';
-    document.getElementById('weatherDesc').textContent = data.date
-        ? `${data.date} · ${icon} ${condition}`
+    document.getElementById('weatherDesc').textContent = displayDate
+        ? `${displayDate} · ${icon} ${condition}`
         : `${icon} ${condition}`;
 
     if (today.max_temp != null && today.min_temp != null) {
