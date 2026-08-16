@@ -30,3 +30,6 @@ Thumbs.db
 # Logs
 logs/
 *.log
+
+# Subscription data (contains user emails)
+data/

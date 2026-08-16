@@ -5,7 +5,7 @@ const loading = document.getElementById('loading');
 const error = document.getElementById('error');
 const weatherCard = document.getElementById('weatherCard');
 
-const cityList = [
+const cityListOptions = [
     'Mumbai', 'Delhi', 'Bangalore', 'Chennai', 'Kolkata',
     'Hyderabad', 'Pune', 'Ahmedabad', 'Jaipur', 'Lucknow',
     'Kanpur', 'Nagpur', 'Indore', 'Thane', 'Bhopal',
@@ -52,7 +52,7 @@ function updateSuggestions(query) {
         return;
     }
 
-    const matches = cityList.filter(city =>
+    const matches = cityListOptions.filter(city =>
         city.toLowerCase().includes(query.toLowerCase())
     ).slice(0, 5);
 
@@ -258,3 +258,76 @@ document.addEventListener('click', (e) => {
 });
 
 cityInput.focus();
+
+const subscribeForm = document.getElementById('subscribeForm');
+const subEmail = document.getElementById('subEmail');
+const subCity = document.getElementById('subCity');
+const subscribeBtn = document.getElementById('subscribeBtn');
+const subscribeMsg = document.getElementById('subscribeMsg');
+const unsubscribeLink = document.getElementById('unsubscribeLink');
+const cityList = document.getElementById('cityList');
+
+cityList.innerHTML = cityListOptions
+    .map(city => `<option value="${city}"></option>`)
+    .join('');
+
+function setSubscribeMsg(message, isError) {
+    subscribeMsg.textContent = message;
+    subscribeMsg.classList.toggle('status-error', isError);
+}
+
+async function postForm(url, payload) {
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+        throw new Error(data.error || `Server error: ${response.status}`);
+    }
+    return data;
+}
+
+subscribeForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    subscribeBtn.disabled = true;
+    subscribeBtn.textContent = 'Subscribing...';
+    setSubscribeMsg('');
+
+    try {
+        const data = await postForm('/api/subscribe', {
+            email: subEmail.value,
+            city: subCity.value
+        });
+        setSubscribeMsg(data.message, false);
+        subEmail.value = '';
+        subCity.value = '';
+    } catch (err) {
+        setSubscribeMsg(err.message, true);
+    } finally {
+        subscribeBtn.disabled = false;
+        subscribeBtn.textContent = 'Subscribe';
+    }
+});
+
+unsubscribeLink.addEventListener('click', async () => {
+    const email = window.prompt('Enter your email to unsubscribe:');
+    if (!email || !email.includes('@')) {
+        setSubscribeMsg(email ? 'Please enter a valid email address' : 'Unsubscribe cancelled', email ? true : false);
+        return;
+    }
+
+    unsubscribeLink.disabled = true;
+    setSubscribeMsg('');
+
+    try {
+        const data = await postForm('/api/unsubscribe', { email });
+        setSubscribeMsg(data.message, false);
+    } catch (err) {
+        setSubscribeMsg(err.message, true);
+    } finally {
+        unsubscribeLink.disabled = false;
+    }
+});

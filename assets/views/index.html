@@ -103,6 +103,19 @@
                 <div id="forecastContainer" class="forecast-container"></div>
             </div>
         </div>
+
+        <section class="subscribe-section">
+            <h2>Daily Weather Email</h2>
+            <p class="subscribe-hint">Get today's forecast in your inbox every morning at 7 AM.</p>
+            <form id="subscribeForm" class="subscribe-box">
+                <input type="email" id="subEmail" placeholder="Your email" autocomplete="email" required>
+                <input type="text" id="subCity" placeholder="City (e.g. Nanded)" list="cityList" autocomplete="off" required>
+                <datalist id="cityList"></datalist>
+                <button type="submit" id="subscribeBtn">Subscribe</button>
+            </form>
+            <p class="subscribe-status" id="subscribeMsg"></p>
+            <button type="button" id="unsubscribeLink" class="unsubscribe-link">Already subscribed? Unsubscribe</button>
+        </section>
     </div>
 
     <script src="/js/imd_weather.js"></script>
