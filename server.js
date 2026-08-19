@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
+const dns = require('dns');
 require('dotenv').config();
+
+dns.setDefaultResultOrder('ipv4first');
 
 const { getStationId, getStationName } = require('./lib/cityLookup');
 const { fetchCityWeather } = require('./lib/imdScraper');
