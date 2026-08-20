@@ -10,7 +10,7 @@ if (!CLIENT_ID || !CLIENT_SECRET) {
 }
 
 const PORT = 8080;
-const REDIRECT_URI = `http://localhost:${PORT}/oauth2callback`;
+const REDIRECT_URI = `http://localhost:${PORT}`;
 const SCOPES = 'https://www.googleapis.com/auth/gmail.send';
 
 const authUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
@@ -23,7 +23,7 @@ const authUrl = 'https://accounts.google.com/o/oauth2/v2/auth'
 
 const server = http.createServer((req, res) => {
     const url = new URL(req.url, `http://localhost:${PORT}`);
-    if (url.pathname !== '/oauth2callback' || !url.searchParams.get('code')) {
+    if (!url.searchParams.get('code')) {
         res.writeHead(400, { 'Content-Type': 'text/plain' });
         res.end('Missing auth code');
         return;
