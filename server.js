@@ -7,7 +7,7 @@ dns.setDefaultResultOrder('ipv4first');
 
 const { getStationId, getStationName } = require('./lib/cityLookup');
 const { fetchCityWeather } = require('./lib/imdScraper');
-const { sendEmail, buildConfirmationEmail, isConfigured } = require('./lib/emailService');
+const { sendEmail, buildConfirmationEmail, isConfigured, describeTransport } = require('./lib/emailService');
 const store = require('./lib/subscriptionStore');
 const { startDailyScheduler, sendWeatherEmailsNow, sendMissedEmailsIfDue, seedOwnerSubscription } = require('./lib/emailScheduler');
 
@@ -117,6 +117,7 @@ if (process.argv.includes('--send-now')) {
     app.listen(PORT, () => {
         console.log(`Server running on http://localhost:${PORT}`);
         startDailyScheduler();
+        console.log(`[email] Transport: ${describeTransport()}`);
         sendMissedEmailsIfDue().catch(err => {
             console.error('[email] Catch-up check failed:', err.message);
         });
