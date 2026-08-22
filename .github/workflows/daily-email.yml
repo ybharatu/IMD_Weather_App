@@ -1,0 +1,21 @@
+name: Daily Weather Email
+
+on:
+  schedule:
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger email check
+        run: |
+          echo "Triggering daily weather email..."
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 300 https://imd-weather-app.onrender.com/api/email/check)
+          echo "Response status: $STATUS"
+          if [ "$STATUS" -ge 400 ]; then
+            echo "Request failed with status $STATUS"
+            exit 1
+          fi
+          echo "Email check triggered successfully"
