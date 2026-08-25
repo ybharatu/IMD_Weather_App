@@ -8,7 +8,7 @@ dns.setDefaultResultOrder('ipv4first');
 const { getStationId, getStationName } = require('./lib/cityLookup');
 const { fetchCityWeather } = require('./lib/imdScraper');
 const { sendEmail, buildConfirmationEmail, isConfigured, describeTransport } = require('./lib/emailService');
-const store = require('./lib/subscriptionStore');
+const store = require('./lib/store');
 const { startDailyScheduler, sendWeatherEmailsNow, sendMissedEmailsIfDue, seedOwnerSubscription } = require('./lib/emailScheduler');
 
 const app = express();
