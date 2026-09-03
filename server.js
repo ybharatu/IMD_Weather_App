@@ -27,7 +27,7 @@ app.get('/api/health', (req, res) => {
 
 app.get('/api/email/check', async (req, res) => {
     try {
-        const result = await sendMissedEmailsIfDue() || {};
+        const result = await sendMissedEmailsIfDue(true) || {};
         res.json({ ok: true, checked: true, sent: result.sent || 0, failed: result.failed || 0 });
     } catch (err) {
         res.status(500).json({ ok: false, error: err.message });
